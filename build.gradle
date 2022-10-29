@@ -13,9 +13,7 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
-jar {
-	enabled = false
-}
+
 repositories {
 	mavenCentral()
 }
@@ -45,4 +43,7 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+jar {
+	enabled = false
 }
