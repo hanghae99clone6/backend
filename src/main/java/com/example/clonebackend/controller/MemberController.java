@@ -44,7 +44,7 @@ public class MemberController {
     }
 
     //토큰 재발급
-    @RequestMapping(value = "/auth/member/reissue", method = RequestMethod.POST)
+    @RequestMapping(value = "/member/reissue", method = RequestMethod.POST)
     public ResponseDto<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         return memberService.reissue(request, response);
     }
