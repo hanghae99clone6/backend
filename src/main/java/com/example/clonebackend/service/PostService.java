@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.clonebackend.controller.response.ResponseDto.success;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -46,7 +48,7 @@ public class PostService {
                 .build();
         postRepository.save(post);
 
-        return ResponseDto.success("success");
+        return ResponseDto.success( "success");
     }
 
     @Transactional(readOnly = true)
@@ -55,7 +57,7 @@ public class PostService {
         if (null == post) {
             return ResponseDto.fail("POST_NOT_FOUND", "게시글이 존재하지 않습니다.");
         }
-        return ResponseDto.success(
+        return success(
                 PostResponseDto.builder()
                         .postId(post.getId())
                         .imageUrl(post.getImageUrl())
@@ -87,7 +89,7 @@ public class PostService {
             );
         }
 
-        return ResponseDto.success(postResponseDtoList);
+        return success(postResponseDtoList);
     }
 
     @Transactional
@@ -95,7 +97,7 @@ public class PostService {
 
         Post post = isPresentPost(id);
         post.update(requestDto);
-        return ResponseDto.success("success");
+        return success("success");
 
     }
 
@@ -116,7 +118,7 @@ public class PostService {
             throw new RuntimeException();
         }
         postRepository.delete(post);
-        return ResponseDto.success("success");
+        return success("success");
     }
 
     @Transactional(readOnly = true)
