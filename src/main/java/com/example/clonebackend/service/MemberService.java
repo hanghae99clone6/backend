@@ -69,15 +69,7 @@ public class MemberService {
 
         memberRepository.save(member);
 
-        return ResponseDto.success(
-                MemberResponseDto.builder()
-                        .id(member.getId())
-                        .nickname(member.getNickname())
-                        .name(member.getName())
-                        .createdAt(member.getCreatedAt())
-                        .modifiedAt(member.getModifiedAt())
-                        .build()
-        );
+        return ResponseDto.success("success");
     }
 
     // 로그인
@@ -99,15 +91,7 @@ public class MemberService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
         tokenToHeaders(tokenDto, response);
 
-        return ResponseDto.success(
-                MemberResponseDto.builder()
-                        .id(member.getId())
-                        .nickname(member.getNickname())
-                        .name(member.getName())
-                        .createdAt(member.getCreatedAt())
-                        .modifiedAt(member.getModifiedAt())
-                        .build()
-        );
+        return ResponseDto.success("success");
     }
 
 
