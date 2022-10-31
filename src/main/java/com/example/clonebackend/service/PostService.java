@@ -1,17 +1,22 @@
 package com.example.clonebackend.service;
 
 import com.example.clonebackend.controller.request.PostRequestDto;
+import com.example.clonebackend.controller.response.PostResponseDto;
 import com.example.clonebackend.controller.response.ResponseDto;
 import com.example.clonebackend.domain.Member;
 import com.example.clonebackend.domain.Post;
+import com.example.clonebackend.error.ErrorCode;
 import com.example.clonebackend.jwt.TokenProvider;
 import com.example.clonebackend.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,14 +49,41 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public ResponseDto<?> getPost(Long id) {
-
-        return ResponseDto.success("임시");
+        Post post = isPresentPost(id);
+        if (null == post) {
+            return ResponseDto.fail("POST_NOT_FOUND", "게시글이 존재하지 않습니다.");
+        }
+        return ResponseDto.success(
+                PostResponseDto.builder()
+                        .postId(post.getId())
+                        .imageUrl(post.getImageUrl())
+                        .content(post.getContent())
+                        .name(post.getMember().getName())
+                        .createdAt(post.getCreatedAt())
+                        .modifiedAt(post.getModifiedAt())
+                        .build()
+        );
     }
 
     @Transactional(readOnly = true)
     public ResponseDto<?> getAllPost(Pageable pageable) {
 
-        return ResponseDto.success("임시");
+        Page<Post> postList = postRepository.findAll(pageable);
+
+        List<PostResponseDto> postResponseDtoList = new ArrayList<>();
+        for (Post post : postList) {
+            postResponseDtoList.add(PostResponseDto.builder()
+                    .postId(post.getId())
+                    .imageUrl(post.getImageUrl())
+                    .content(post.getContent())
+                    .name(post.getMember().getName())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .build()
+            );
+        }
+
+        return ResponseDto.success(postResponseDtoList);
     }
 
     @Transactional
