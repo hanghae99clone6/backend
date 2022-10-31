@@ -28,7 +28,6 @@ public class PostService {
 //    private final LikesRepository likesRepository;
 
     private final TokenProvider tokenProvider;
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
 
 
@@ -89,7 +88,10 @@ public class PostService {
     @Transactional
     public ResponseDto<?> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request) {
 
-        return ResponseDto.success("임시");
+        Post post = isPresentPost(id);
+        post.update(requestDto);
+        return ResponseDto.success("게시글을 수정 했습니다.");
+
     }
 
     @Transactional
