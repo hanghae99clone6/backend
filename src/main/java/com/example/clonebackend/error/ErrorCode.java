@@ -16,7 +16,7 @@ public enum ErrorCode {
     INVALID_TOKEN(404,"Token이 유효하지 않습니다."),
     //409 CONFLICT 중복된 리소스
     ALREADY_SAVED_ID(409, "중복된 아이디입니다."),
-    ALERADY_SAVED_NICKNAME(409,"중복된 닉네임입니다."),
+    ALREADY_SAVED_NICKNAME(409,"중복된 닉네임입니다."),
 
     //500 INTERNAL SERVER ERROR
     INTERNAL_SERVER_ERROR(500, "서버 에러입니다. 고객센터에 문의해주세요"),
