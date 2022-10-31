@@ -23,13 +23,23 @@ public class PostService {
 //    private final LikesRepository likesRepository;
 
     private final TokenProvider tokenProvider;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
 
 
     @Transactional
     public ResponseDto<?> createPost(PostRequestDto requestDto, HttpServletRequest request) {
 
-        return ResponseDto.success("임시");
+        Member member = validateMember(request);
+
+        Post post = Post.builder()
+                .imageUrl(requestDto.getImageUrl())
+                .content(requestDto.getContent())
+                .member(member)
+                .build();
+        postRepository.save(post);
+
+        return ResponseDto.success("게시글 작성 했습니다.");
     }
 
     @Transactional(readOnly = true)
