@@ -47,7 +47,7 @@ public class CommentService {
         .build();
     commentRepository.save(comment);
 
-    return ResponseDto.success("게시글 작성 성공");
+    return ResponseDto.success("success");
   }
 
   @Transactional(readOnly = true)
@@ -124,7 +124,7 @@ public class CommentService {
 
     comment.update(requestDto);
     return ResponseDto.success(
-        "게시글 수정 성공"
+        "success"
     );
   }
 
@@ -146,7 +146,7 @@ public class CommentService {
 
 
     commentRepository.delete(comment);
-    return ResponseDto.success("게시글 삭제성공");
+    return ResponseDto.success("success");
   }
 
 
