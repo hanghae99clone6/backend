@@ -5,8 +5,11 @@ import com.example.clonebackend.controller.response.PostResponseDto;
 import com.example.clonebackend.controller.response.ResponseDto;
 import com.example.clonebackend.domain.Member;
 import com.example.clonebackend.domain.Post;
+import com.example.clonebackend.domain.PostLike;
 import com.example.clonebackend.error.ErrorCode;
 import com.example.clonebackend.jwt.TokenProvider;
+import com.example.clonebackend.repository.CommentRepository;
+import com.example.clonebackend.repository.PostLikeRepository;
 import com.example.clonebackend.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,8 +27,8 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
-//    private final CommentRepository commentRepository;
-//    private final LikesRepository likesRepository;
+    private final CommentRepository commentRepository;
+    private final PostLikeRepository postLikeRepository;
 
     private final TokenProvider tokenProvider;
 
@@ -43,7 +46,7 @@ public class PostService {
                 .build();
         postRepository.save(post);
 
-        return ResponseDto.success("게시글 작성 했습니다.");
+        return ResponseDto.success("success");
     }
 
     @Transactional(readOnly = true)
@@ -58,6 +61,7 @@ public class PostService {
                         .imageUrl(post.getImageUrl())
                         .content(post.getContent())
                         .name(post.getMember().getName())
+                        .like(countLikesPost(post))
                         .createdAt(post.getCreatedAt())
                         .modifiedAt(post.getModifiedAt())
                         .build()
@@ -76,6 +80,7 @@ public class PostService {
                     .imageUrl(post.getImageUrl())
                     .content(post.getContent())
                     .name(post.getMember().getName())
+                    .like(countLikesPost(post))
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
                     .build()
@@ -90,7 +95,7 @@ public class PostService {
 
         Post post = isPresentPost(id);
         post.update(requestDto);
-        return ResponseDto.success("게시글을 수정 했습니다.");
+        return ResponseDto.success("success");
 
     }
 
@@ -111,7 +116,7 @@ public class PostService {
             throw new RuntimeException();
         }
         postRepository.delete(post);
-        return ResponseDto.success("게시글을 삭제 했습니다.");
+        return ResponseDto.success("success");
     }
 
     @Transactional(readOnly = true)
@@ -126,6 +131,11 @@ public class PostService {
             return null;
         }
         return tokenProvider.getMemberFromAuthentication();
+    }
+    @Transactional(readOnly = true)
+    public int countLikesPost(Post post) {
+        List<PostLike> postLikeList = postLikeRepository.findAllByPost(post);
+        return postLikeList.size();
     }
 
 }

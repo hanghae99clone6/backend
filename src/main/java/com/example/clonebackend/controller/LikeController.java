@@ -13,11 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
+@CustomBaseControllerAnnotation
 public class LikeController {
 
   private final LikeService likeService;
 
-  @RequestMapping(value = "/api/auth/like/post/{id}", method = RequestMethod.POST)
+  @RequestMapping(value = "/auth/like/post/{id}", method = RequestMethod.POST)
   public ResponseDto<?> likePost(
       @PathVariable Long id,
       HttpServletRequest request
@@ -27,7 +28,7 @@ public class LikeController {
 
 
 
-  @RequestMapping(value = "/api/auth/like/post", method = RequestMethod.POST)
+  @RequestMapping(value = "/auth/like/post", method = RequestMethod.POST)
   public ResponseDto<?> getAllLikedPost(
       HttpServletRequest request
   ) {

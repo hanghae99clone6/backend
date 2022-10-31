@@ -2,6 +2,7 @@ package com.example.clonebackend.service;
 
 
 import com.example.clonebackend.controller.response.CommentResponseDto;
+import com.example.clonebackend.controller.response.PostResponseDto;
 import com.example.clonebackend.controller.response.ResponseDto;
 import com.example.clonebackend.domain.Comment;
 import com.example.clonebackend.domain.Member;
@@ -10,6 +11,7 @@ import com.example.clonebackend.domain.PostLike;
 import com.example.clonebackend.jwt.TokenProvider;
 import com.example.clonebackend.repository.CommentRepository;
 import com.example.clonebackend.repository.PostLikeRepository;
+import com.example.clonebackend.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +27,12 @@ public class LikeService {
 
   private final PostLikeRepository postLikeRepository;
 
-//  private final PostRepository postRepository;
+  private final PostRepository postRepository;
   private final CommentRepository commentRepository;
 
 
   private final TokenProvider tokenProvider;
-//  private final PostService postService;
+  private final PostService postService;
 
 
   @Transactional
@@ -89,12 +91,10 @@ public class LikeService {
 
         postResponseDtoList.add(
             PostResponseDto.builder()
-                .id(post.getId())
+                .postId(post.getId())
                 .content(post.getContent())
-                .imgUrl(post.getImgUrl())
-                .author(post.getMember().getNickname())
-                .likes(countLikesPost(post))
-                .comments(commentResponseDtoList)
+                .imageUrl(post.getImageUrl())
+                .name(post.getMember().getNickname())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
                 .build()

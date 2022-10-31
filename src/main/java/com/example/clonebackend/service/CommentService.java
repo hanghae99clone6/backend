@@ -47,15 +47,7 @@ public class CommentService {
         .build();
     commentRepository.save(comment);
 
-    return ResponseDto.success(
-        CommentResponseDto.builder()
-            .id(comment.getId())
-            .author(comment.getMember().getNickname())
-            .content(comment.getContent())
-            .createdAt(comment.getCreatedAt())
-            .modifiedAt(comment.getModifiedAt())
-            .build()
-    );
+    return ResponseDto.success("게시글 작성 성공");
   }
 
   @Transactional(readOnly = true)
@@ -132,14 +124,7 @@ public class CommentService {
 
     comment.update(requestDto);
     return ResponseDto.success(
-        CommentResponseDto.builder()
-            .id(comment.getId())
-            .author(comment.getMember().getNickname())
-            .content(comment.getContent())
-            .likes(countLikesComment(comment))
-            .createdAt(comment.getCreatedAt())
-            .modifiedAt(comment.getModifiedAt())
-            .build()
+        "게시글 수정 성공"
     );
   }
 
@@ -161,7 +146,7 @@ public class CommentService {
 
 
     commentRepository.delete(comment);
-    return ResponseDto.success("success");
+    return ResponseDto.success("게시글 삭제성공");
   }
 
 

@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @RestController
+@CustomBaseControllerAnnotation
 public class PostController {
 
     private final PostService postService;
 
     // 게시글 작성
 //    @SwaggerAnnotation
-    @PostMapping(value = "/api/auth/posts")
+    @PostMapping(value = "/auth/posts")
     public ResponseDto<?> createPosts(@RequestBody PostRequestDto requestDto,
                                       HttpServletRequest request) {
         return postService.createPost(requestDto, request);
@@ -27,21 +28,21 @@ public class PostController {
 
 
     // 모든 게시물 조회
-    @GetMapping(value = "/api/posts")
+    @GetMapping(value = "/post")
     // @Pagable을 통해 보여줄 페이시 위치(0이 시작), 한 페이지에 게시글 개수(15), 정렬 기준(createdAt), 정렬 기준의 순서(내림차순)을 정의
     public ResponseDto<?> getAllPosts(@PageableDefault(page = 0, size = 15, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return postService.getAllPost(pageable);
     }
 
     // 게시물 상세조회
-    @GetMapping(value = "/api/posts/{id}")
+    @GetMapping(value = "/post/{id}")
     public ResponseDto<?> getPosts(@PathVariable Long id) {
         return postService.getPost(id);
     }
 
     // 게시글 수정
 //    @SwaggerAnnotation
-    @PutMapping(value = "/api/auth/posts/{id}")
+    @PutMapping(value = "/auth/post/{id}")
     public ResponseDto<?> updatePosts(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto,
                                       HttpServletRequest request) {
         return postService.updatePost(id, postRequestDto, request);
@@ -49,7 +50,7 @@ public class PostController {
 
     //게시글 삭제
 //    @SwaggerAnnotation
-    @DeleteMapping(value = "/api/auth/posts/{id}")
+    @DeleteMapping(value = "/auth/post/{id}")
     public ResponseDto<?> deletePosts(@PathVariable Long id,
                                       HttpServletRequest request) {
         return postService.deletePost(id, request);
