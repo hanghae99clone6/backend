@@ -58,7 +58,7 @@ public class MemberService {
             if (!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
                 return ResponseDto.fail("NOT_ADMIN", "ADMIN토큰이 일치하지 않습니다.");
             }
-            Member.builder()
+            member = Member.builder()
                     .nickname(requestDto.getNickname())
                     .name(requestDto.getName())
                     .password(passwordEncoder.encode(requestDto.getPassword()))
