@@ -1,5 +1,6 @@
 package com.example.clonebackend.controller;
 
+import com.example.clonebackend.configuration.SwaggerAnnotation;
 import com.example.clonebackend.controller.request.PostRequestDto;
 import com.example.clonebackend.controller.response.ResponseDto;
 import com.example.clonebackend.service.PostService;
@@ -19,7 +20,7 @@ public class PostController {
     private final PostService postService;
 
     // 게시글 작성
-//    @SwaggerAnnotation
+    @SwaggerAnnotation
     @PostMapping(value = "/auth/posts")
     public ResponseDto<?> createPosts(@RequestBody PostRequestDto requestDto,
                                       HttpServletRequest request) {
@@ -41,7 +42,7 @@ public class PostController {
     }
 
     // 게시글 수정
-//    @SwaggerAnnotation
+    @SwaggerAnnotation
     @PutMapping(value = "/auth/post/{id}")
     public ResponseDto<?> updatePosts(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto,
                                       HttpServletRequest request) {
@@ -49,7 +50,7 @@ public class PostController {
     }
 
     //게시글 삭제
-//    @SwaggerAnnotation
+    @SwaggerAnnotation
     @DeleteMapping(value = "/auth/post/{id}")
     public ResponseDto<?> deletePosts(@PathVariable Long id,
                                       HttpServletRequest request) {

@@ -28,7 +28,7 @@ public class SwaggerConfig {
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.move.review"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.clonebackend"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
