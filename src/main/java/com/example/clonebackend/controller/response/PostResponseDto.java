@@ -20,6 +20,7 @@ public class PostResponseDto {
     private String content;
     private String name;
     private int like;
+    private int commentCount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

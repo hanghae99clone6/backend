@@ -3,6 +3,7 @@ package com.example.clonebackend.service;
 import com.example.clonebackend.controller.request.PostRequestDto;
 import com.example.clonebackend.controller.response.PostResponseDto;
 import com.example.clonebackend.controller.response.ResponseDto;
+import com.example.clonebackend.domain.Comment;
 import com.example.clonebackend.domain.Member;
 import com.example.clonebackend.domain.Post;
 import com.example.clonebackend.domain.PostLike;
@@ -64,6 +65,7 @@ public class PostService {
                         .content(post.getContent())
                         .name(post.getMember().getName())
                         .like(countLikesPost(post))
+                        .commentCount(countComment(post))
                         .createdAt(post.getCreatedAt())
                         .modifiedAt(post.getModifiedAt())
                         .build()
@@ -83,6 +85,7 @@ public class PostService {
                     .content(post.getContent())
                     .name(post.getMember().getName())
                     .like(countLikesPost(post))
+                    .commentCount(countComment(post))
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
                     .build()
@@ -138,6 +141,12 @@ public class PostService {
     public int countLikesPost(Post post) {
         List<PostLike> postLikeList = postLikeRepository.findAllByPost(post);
         return postLikeList.size();
+    }
+
+    @Transactional(readOnly = true)
+    public int countComment(Post post) {
+        List<Comment> commentList = commentRepository.findAllByPost(post);
+        return commentList.size();
     }
 
 }

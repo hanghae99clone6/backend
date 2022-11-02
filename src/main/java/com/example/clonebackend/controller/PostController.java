@@ -31,7 +31,7 @@ public class PostController {
     // 모든 게시물 조회
     @GetMapping(value = "/post")
     // @Pagable을 통해 보여줄 페이시 위치(0이 시작), 한 페이지에 게시글 개수(15), 정렬 기준(createdAt), 정렬 기준의 순서(내림차순)을 정의
-    public ResponseDto<?> getAllPosts(@PageableDefault(page = 0, size = 15, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseDto<?> getAllPosts(@PageableDefault(page = 0, size = 3, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return postService.getAllPost(pageable);
     }
 
