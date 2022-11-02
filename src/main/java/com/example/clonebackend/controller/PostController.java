@@ -25,9 +25,11 @@ public class PostController {
     // 게시글 작성
     @SwaggerAnnotation
     @PostMapping(value = "/auth/posts", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
-    public ResponseDto<?> createPosts(@RequestPart(value = "postDto") PostRequestDto requestDto, HttpServletRequest request, @RequestPart(value = "imageUrl", required = false) MultipartFile multipartFile) throws IOException {
+    public ResponseDto<?> createPosts(@RequestParam(value = "postDto") PostRequestDto requestDto, HttpServletRequest request, @RequestParam(value = "imageUrl", required = false) MultipartFile multipartFile) throws IOException {
         return postService.createPost(requestDto, request, multipartFile);
     }
+
+
 
 
     // 모든 게시물 조회
@@ -46,7 +48,7 @@ public class PostController {
     // 게시글 수정
     @SwaggerAnnotation
     @PutMapping(value = "/auth/post/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
-    public ResponseDto<?> updatePosts(@PathVariable Long id, @RequestPart(value = "postDto") PostRequestDto postRequestDto, HttpServletRequest request, @RequestPart(value = "imageUrl", required = false) MultipartFile multipartFile) throws IOException {
+    public ResponseDto<?> updatePosts(@PathVariable Long id, @RequestParam(value = "postDto") PostRequestDto postRequestDto, HttpServletRequest request, @RequestParam(value = "imageUrl", required = false) MultipartFile multipartFile) throws IOException {
         return postService.updatePost(id, postRequestDto, request, multipartFile);
     }
 
