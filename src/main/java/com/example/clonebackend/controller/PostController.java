@@ -8,9 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,10 +24,10 @@ public class PostController {
 
     // 게시글 작성
     @SwaggerAnnotation
-    @PostMapping(value = "/auth/posts")
-    public ResponseDto<?> createPosts(@RequestBody PostRequestDto requestDto,
-                                      HttpServletRequest request) {
-        return postService.createPost(requestDto, request);
+    @PostMapping(value = "/auth/posts", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
+    public ResponseDto<?> createPosts(@RequestPart PostRequestDto requestDto,
+                                      HttpServletRequest request, @RequestPart(name = "file", required = false) MultipartFile multipartFile) throws IOException {
+        return postService.createPost(requestDto, request,multipartFile);
     }
 
 
@@ -43,10 +46,10 @@ public class PostController {
 
     // 게시글 수정
     @SwaggerAnnotation
-    @PutMapping(value = "/auth/post/{id}")
+    @PutMapping(value = "/auth/post/{id}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
     public ResponseDto<?> updatePosts(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto,
-                                      HttpServletRequest request) {
-        return postService.updatePost(id, postRequestDto, request);
+                                      HttpServletRequest request,@RequestPart(name = "file", required = false) MultipartFile multipartFile) throws IOException {
+        return postService.updatePost(id, postRequestDto, request,multipartFile);
     }
 
     //게시글 삭제
