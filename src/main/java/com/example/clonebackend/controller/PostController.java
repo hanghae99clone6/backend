@@ -24,10 +24,12 @@ public class PostController {
 
     // 게시글 작성
     @SwaggerAnnotation
-    @PostMapping(value = "/auth/posts", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
-    public ResponseDto<?> createPosts(@RequestPart(value = "postDto") PostRequestDto requestDto, HttpServletRequest request, @RequestPart(value = "imageUrl", required = false) MultipartFile multipartFile) throws IOException {
+    @PostMapping(value = "/auth/posts", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
+    public ResponseDto<?> createPosts(@RequestPart(value = "postDto") PostRequestDto requestDto, HttpServletRequest request,
+                                      @RequestPart(value = "imageUrl", required = false) MultipartFile multipartFile) throws IOException {
         return postService.createPost(requestDto, request, multipartFile);
     }
+
 
 
 
