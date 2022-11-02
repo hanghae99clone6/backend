@@ -17,8 +17,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,16 +36,25 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
 
     private final TokenProvider tokenProvider;
+    private final S3Service s3Service;
 
 
 
     @Transactional
-    public ResponseDto<?> createPost(PostRequestDto requestDto, HttpServletRequest request) {
+    public ResponseDto<?> createPost(PostRequestDto requestDto, HttpServletRequest request, MultipartFile multipartFile) throws IOException {
 
         Member member = validateMember(request);
 
+        //이미지 업로드
+        if(null==multipartFile){
+            System.out.println("null");
+        }
+
+        String imgPath = s3Service.upload(multipartFile);
+        requestDto.setImageUrl(imgPath);
+
         Post post = Post.builder()
-                .imageUrl(requestDto.getImageUrl())
+                .imageUrl(imgPath)
                 .content(requestDto.getContent())
                 .member(member)
                 .build();
@@ -96,9 +107,13 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseDto<?> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request) {
-
+    public ResponseDto<?> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request,MultipartFile multipartFile) throws IOException {
         Post post = isPresentPost(id);
+
+        String imgPath = s3Service.upload(multipartFile);
+        requestDto.setImageUrl(imgPath);
+
+
         post.update(requestDto);
         return success("success");
 
