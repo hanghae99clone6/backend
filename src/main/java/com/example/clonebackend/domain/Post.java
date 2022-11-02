@@ -28,8 +28,8 @@ public class Post extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Comment> comments;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comment;
 
     @JoinColumn
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
