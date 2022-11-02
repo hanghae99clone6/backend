@@ -24,10 +24,9 @@ public class PostController {
 
     // 게시글 작성
     @SwaggerAnnotation
-    @PostMapping(value = "/auth/posts", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
-    public ResponseDto<?> createPosts(@RequestPart PostRequestDto requestDto,
-                                      HttpServletRequest request, @RequestPart(name = "file", required = false) MultipartFile multipartFile) throws IOException {
-        return postService.createPost(requestDto, request,multipartFile);
+    @PostMapping(value = "/auth/posts", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
+    public ResponseDto<?> createPosts(@RequestPart(value = "postDto") PostRequestDto requestDto, HttpServletRequest request, @RequestPart(value = "imageUrl", required = false) MultipartFile multipartFile) throws IOException {
+        return postService.createPost(requestDto, request, multipartFile);
     }
 
 
@@ -46,10 +45,9 @@ public class PostController {
 
     // 게시글 수정
     @SwaggerAnnotation
-    @PutMapping(value = "/auth/post/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
-    public ResponseDto<?> updatePosts(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto,
-                                      HttpServletRequest request,@RequestPart(name = "file", required = false) MultipartFile multipartFile) throws IOException {
-        return postService.updatePost(id, postRequestDto, request,multipartFile);
+    @PutMapping(value = "/auth/post/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = "application/json")
+    public ResponseDto<?> updatePosts(@PathVariable Long id, @RequestPart(value = "postDto") PostRequestDto postRequestDto, HttpServletRequest request, @RequestPart(value = "imageUrl", required = false) MultipartFile multipartFile) throws IOException {
+        return postService.updatePost(id, postRequestDto, request, multipartFile);
     }
 
     //게시글 삭제
