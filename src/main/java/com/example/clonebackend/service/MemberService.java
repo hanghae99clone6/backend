@@ -42,6 +42,10 @@ public class MemberService {
             return ResponseDto.fail(ErrorCode.ALREADY_SAVED_ID.name(),
                     ErrorCode.ALREADY_SAVED_ID.getMessage());
         }
+        if (null != isPresentMemberName(requestDto.getName())) {
+            return ResponseDto.fail(ErrorCode.ALREADY_SAVED_ID.name(),
+                    ErrorCode.ALREADY_SAVED_ID.getMessage());
+        }
 
         if (!requestDto.getPassword().equals(requestDto.getPasswordConfirm())) {
             return ResponseDto.fail(ErrorCode.PASSWORDS_NOT_MATCHED.name(),
@@ -91,7 +95,12 @@ public class MemberService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
         tokenToHeaders(tokenDto, response);
 
-        return ResponseDto.success("success");
+        return ResponseDto.success(MemberResponseDto.builder()
+                .id(member.getId())
+                .nickname(member.getNickname())
+                .name(member.getName())
+                .build())
+                ;
     }
 
 
@@ -137,6 +146,11 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
         return optionalMember.orElse(null);
     }
+    @Transactional(readOnly = true)
+    public Member isPresentMemberName(String name) {
+        Optional<Member> optionalMember = memberRepository.findByName(name);
+        return optionalMember.orElse(null);
+    }
 
     public void tokenToHeaders(TokenDto tokenDto, HttpServletResponse response) {
         response.addHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
@@ -152,4 +166,5 @@ public class MemberService {
         }
         return tokenProvider.getMemberFromAuthentication();
     }
+
 }
