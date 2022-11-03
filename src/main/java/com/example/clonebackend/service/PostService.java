@@ -1,6 +1,7 @@
 package com.example.clonebackend.service;
 
 import com.example.clonebackend.controller.request.PostRequestDto;
+import com.example.clonebackend.controller.response.CommentResponseDto;
 import com.example.clonebackend.controller.response.PostResponseDto;
 import com.example.clonebackend.controller.response.ResponseDto;
 import com.example.clonebackend.domain.Comment;
@@ -69,6 +70,21 @@ public class PostService {
         if (null == post) {
             return ResponseDto.fail("POST_NOT_FOUND", "게시글이 존재하지 않습니다.");
         }
+
+        List<Comment> commentList = commentRepository.findAllByPost(post);
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+
+        for(Comment comment : commentList){
+            commentResponseDtoList.add(
+                    CommentResponseDto.builder()
+                            .id(comment.getId())
+                            .author(comment.getMember().getNickname())
+                            .content(comment.getContent())
+                            .createdAt(comment.getCreatedAt())
+                            .modifiedAt(comment.getModifiedAt())
+                            .build()
+            );
+        }
         return success(
                 PostResponseDto.builder()
                         .postId(post.getId())
@@ -79,6 +95,7 @@ public class PostService {
                         .commentCount(countComment(post))
                         .createdAt(post.getCreatedAt())
                         .modifiedAt(post.getModifiedAt())
+                        .comment(commentResponseDtoList)
                         .build()
         );
     }
